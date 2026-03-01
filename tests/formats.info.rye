@@ -233,7 +233,7 @@ section "SXML " "Streaming, SAX-like XML processing" {
 		"<scene><bot>C3PO</bot><bot>R2D2</bot><jedi>Luke</jedi></scene>" |reader
 		.do-sxml { _ [ .prns ] }
 		} "C3PO R2D2 Luke "
-		stdout {
+		equal {
 		"<scene><bot>C3PO</bot><bot>R2D2</bot><jedi>Luke</jedi></scene>" |reader
 		.do-sxml { <bot> { _ [ .prns ] } }
 		} "C3PO R2D2 "

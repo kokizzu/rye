@@ -71,7 +71,7 @@ func load_html_Dict(es *env.ProgramState, block env.Block) (env.Dict, *env.Error
 			conditions = append(conditions, nil) // if void append empty string to keys
 			block.Series.Next()
 			continue
-		case env.Xword:
+		case env.Opword:
 			key = es.Idx.GetWord(obj.Index)
 			block.Series.Next()
 			continue
@@ -86,7 +86,7 @@ func load_html_Dict(es *env.ProgramState, block env.Block) (env.Dict, *env.Error
 			condition.Id = es.Idx.GetWord(obj.Index)
 			block.Series.Next()
 			continue
-		case env.Opword: // if tagword append -word- to keys
+		case env.Dotword: // if tagword append -word- to keys
 			if condition == nil {
 				condition = &HtmlNavigCondition{"", ""}
 			}

@@ -69,13 +69,12 @@ var builtins_boolean = map[string]*env.Builtin{
 	// equal { false .and true } false
 	// equal { true .and false } false
 	// equal { false .and false } false
-	// equal { 3 .and 5 } 1  ; bitwise 011 AND 101 = 001
 	// error { true .and 5 }
 	// error { 5 .and true }
 	// error { "string" .and true }
 	// Args:
-	// * value1: First value (boolean or integer)
-	// * value2: Second value (boolean or integer)
+	// * value1: First value (boolean)
+	// * value2: Second value (boolean)
 	// Returns:
 	// * boolean result of logical AND operation if both inputs are booleans, otherwise integer result of bitwise AND
 	"and": {
@@ -91,15 +90,8 @@ var builtins_boolean = map[string]*env.Builtin{
 				default:
 					return MakeArgError(ps, 2, []env.Type{env.BooleanType}, "and")
 				}
-			case env.Integer:
-				switch s2 := arg1.(type) {
-				case env.Integer:
-					return *env.NewInteger(s1.Value & s2.Value)
-				default:
-					return MakeArgError(ps, 2, []env.Type{env.IntegerType}, "and")
-				}
 			default:
-				return MakeArgError(ps, 1, []env.Type{env.BooleanType, env.IntegerType}, "and")
+				return MakeArgError(ps, 1, []env.Type{env.BooleanType}, "and")
 			}
 		},
 	},
@@ -109,13 +101,12 @@ var builtins_boolean = map[string]*env.Builtin{
 	// equal { false .or true } true
 	// equal { true .or false } true
 	// equal { false .or false } false
-	// equal { 3 .or 5 } 7  ; bitwise 011 OR 101 = 111
 	// error { true .or 5 }
 	// error { 5 .or true }
 	// error { "string" .or true }
 	// Args:
-	// * value1: First value (boolean or integer)
-	// * value2: Second value (boolean or integer)
+	// * value1: First value (boolean)
+	// * value2: Second value (boolean)
 	// Returns:
 	// * boolean result of logical OR operation if both inputs are booleans, otherwise integer result of bitwise OR
 	"or": {
@@ -131,15 +122,8 @@ var builtins_boolean = map[string]*env.Builtin{
 				default:
 					return MakeArgError(ps, 2, []env.Type{env.BooleanType}, "or")
 				}
-			case env.Integer:
-				switch s2 := arg1.(type) {
-				case env.Integer:
-					return *env.NewInteger(s1.Value | s2.Value)
-				default:
-					return MakeArgError(ps, 2, []env.Type{env.IntegerType}, "or")
-				}
 			default:
-				return MakeArgError(ps, 1, []env.Type{env.BooleanType, env.IntegerType}, "or")
+				return MakeArgError(ps, 1, []env.Type{env.BooleanType}, "or")
 			}
 		},
 	},
@@ -149,13 +133,12 @@ var builtins_boolean = map[string]*env.Builtin{
 	// equal { false .xor true } true
 	// equal { true .xor false } true
 	// equal { false .xor false } false
-	// equal { 3 .xor 5 } 6  ; bitwise 011 XOR 101 = 110
 	// error { true .xor 5 }
 	// error { 5 .xor true }
 	// error { "string" .xor true }
 	// Args:
-	// * value1: First value (boolean or integer)
-	// * value2: Second value (boolean or integer)
+	// * value1: First value (boolean)
+	// * value2: Second value (boolean)
 	// Returns:
 	// * boolean result of logical XOR operation if both inputs are booleans, otherwise integer result of bitwise XOR
 	"xor": {
@@ -171,15 +154,8 @@ var builtins_boolean = map[string]*env.Builtin{
 				default:
 					return MakeArgError(ps, 2, []env.Type{env.BooleanType}, "xor")
 				}
-			case env.Integer:
-				switch s2 := arg1.(type) {
-				case env.Integer:
-					return *env.NewInteger(s1.Value ^ s2.Value)
-				default:
-					return MakeArgError(ps, 2, []env.Type{env.IntegerType}, "xor")
-				}
 			default:
-				return MakeArgError(ps, 1, []env.Type{env.BooleanType, env.IntegerType}, "xor")
+				return MakeArgError(ps, 1, []env.Type{env.BooleanType}, "xor")
 			}
 		},
 	},

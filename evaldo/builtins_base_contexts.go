@@ -302,8 +302,8 @@ var builtins_contexts = map[string]*env.Builtin{
 	},
 
 	// Tests:
-	// equal { c: context { y: 123 } cc: bind! context { z: does { y + 234 } } c , unbind cc cc/z } 357
-	// ; error { c: context { y: 123 } cc: bind! context { z: does { y + 234 } } c , dd: unbind cc dd/z }
+	// equal { c: context { y: 123 } cc: bind! context { x: 234 z: does { x } } c , unbind cc cc/z } 123
+	// error { c: context { y: 123 } cc: bind! context { z: does { y } } c , dd: unbind cc dd/z }
 	// Args:
 	// * ctx: Context object to unbind from its parent
 	// Returns:

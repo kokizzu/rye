@@ -1274,17 +1274,17 @@ var builtins = map[string]*env.Builtin{
 			case env.Table:
 				return sp
 			case *env.Table:
-				return sp
+				return *sp
 			case *env.Dict:
-				return sp
+				return *sp
 			case *env.List:
-				return sp
+				return *sp
 			case *env.Block:
-				return sp
+				return *sp
 			case *env.RyeCtx:
 				return sp
 			case *env.String:
-				return sp
+				return *sp
 			case *env.Native:
 				sp.Value = env.DereferenceAny(sp.Value)
 				return sp

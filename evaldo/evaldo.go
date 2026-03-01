@@ -72,6 +72,7 @@ func EvalBlockInj_Rye2(ps *env.ProgramState, inj env.Object, injnow bool) {
 	// fmt.Println("---------------------------------------------")
 	// repeats evaluating expressions to the end of the block
 	// nothing is passed between expressions, except through context
+	origInj := inj // save the original injection value so commas always re-inject it
 	for ps.Ser.Pos() < ps.Ser.Len() {
 		injnow = EvalExpressionInj(ps, inj, injnow)
 		if ps.Injnow {
@@ -97,7 +98,21 @@ func EvalBlockInj_Rye2(ps *env.ProgramState, inj env.Object, injnow bool) {
 			// fmt.Println("EVALBLOCKINJ RETURNING")
 			return
 		}
-		injnow = MaybeAcceptComma(ps, inj, injnow)
+		// Handle comma expression guards.
+		// When an original injection value exists (e.g. inside `with`), commas must always
+		// re-inject that original value — not a dotword's intermediate result that may have
+		// overwritten `inj` via the ps.Inj/ps.Injnow mechanism above.
+		if origInj != nil {
+			if obj := ps.Ser.Peek(); obj != nil {
+				if _, ok := obj.(env.Comma); ok {
+					ps.Ser.Next()
+					inj = origInj // restore original injection value after comma
+					injnow = true
+				}
+			}
+		} else {
+			injnow = MaybeAcceptComma(ps, inj, injnow)
+		}
 	}
 }
 
@@ -269,11 +284,9 @@ func OptionallyEvalExpressionRight(nextObj env.Object, ps *env.ProgramState, lim
 		OptionallyEvalExpressionRight(ps.Ser.Peek(), ps, limited, allowOpwords)
 		return
 	case env.LSetword:
-		fmt.Println("*")
 		if limited {
 			return
 		}
-		fmt.Println("**")
 		idx := opword.Index
 		if ps.AllowMod {
 			ok := ps.Ctx.Mod(idx, ps.Res)

@@ -363,7 +363,7 @@ section "File Operations " "File system operations and file manipulation" {
 	{
 ``	}
 
-	group "file//Read-all" 
+	group "file//Read" 
 	"Reads the entire content of a file as a string."
 	{
 		arg `file: native file object`
@@ -371,7 +371,7 @@ section "File Operations " "File system operations and file manipulation" {
 	}
 
 	{
-		equal { Read-all Open %data/file.txt } "hello text file\n"
+		equal { Read Open %data/file.txt } "hello text file\n"
 	}
 
 	{
