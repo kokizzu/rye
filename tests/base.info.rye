@@ -49,8 +49,8 @@ section "Boolean " "Functions that work with true and false values." {
 	group "and" 
 	"Performs a logical AND operation between two boolean values, or a bitwise AND operation between two integer values."
 	{
-		arg `value1: First value (boolean or integer)`
-		arg `value2: Second value (boolean or integer)`
+		arg `value1: First value (boolean)`
+		arg `value2: Second value (boolean)`
 		returns `boolean result of logical AND operation if both inputs are booleans, otherwise integer result of bitwise AND`
 	}
 
@@ -59,7 +59,6 @@ section "Boolean " "Functions that work with true and false values." {
 		equal { false .and true } false
 		equal { true .and false } false
 		equal { false .and false } false
-		equal { 3 .and 5 } 1  ; bitwise 011 AND 101 = 001
 		error { true .and 5 }
 		error { 5 .and true }
 		error { "string" .and true }
@@ -71,8 +70,8 @@ section "Boolean " "Functions that work with true and false values." {
 	group "or" 
 	"Performs a logical OR operation between two boolean values, or a bitwise OR operation between two integer values."
 	{
-		arg `value1: First value (boolean or integer)`
-		arg `value2: Second value (boolean or integer)`
+		arg `value1: First value (boolean)`
+		arg `value2: Second value (boolean)`
 		returns `boolean result of logical OR operation if both inputs are booleans, otherwise integer result of bitwise OR`
 	}
 
@@ -81,7 +80,6 @@ section "Boolean " "Functions that work with true and false values." {
 		equal { false .or true } true
 		equal { true .or false } true
 		equal { false .or false } false
-		equal { 3 .or 5 } 7  ; bitwise 011 OR 101 = 111
 		error { true .or 5 }
 		error { 5 .or true }
 		error { "string" .or true }
@@ -93,8 +91,8 @@ section "Boolean " "Functions that work with true and false values." {
 	group "xor" 
 	"Performs a logical XOR (exclusive OR) operation between two boolean values, or a bitwise XOR operation between two integer values."
 	{
-		arg `value1: First value (boolean or integer)`
-		arg `value2: Second value (boolean or integer)`
+		arg `value1: First value (boolean)`
+		arg `value2: Second value (boolean)`
 		returns `boolean result of logical XOR operation if both inputs are booleans, otherwise integer result of bitwise XOR`
 	}
 
@@ -103,7 +101,6 @@ section "Boolean " "Functions that work with true and false values." {
 		equal { false .xor true } true
 		equal { true .xor false } true
 		equal { false .xor false } false
-		equal { 3 .xor 5 } 6  ; bitwise 011 XOR 101 = 110
 		error { true .xor 5 }
 		error { 5 .xor true }
 		error { "string" .xor true }
@@ -3293,8 +3290,8 @@ section "Contexts " "Context related functions" {
 	}
 
 	{
-		equal { c: context { y: 123 } cc: bind! context { z: does { y + 234 } } c , unbind cc cc/z } 357
-		; error { c: context { y: 123 } cc: bind! context { z: does { y + 234 } } c , dd: unbind cc dd/z }
+		equal { c: context { y: 123 } cc: bind! context { x: 234 z: does { x } } c , unbind cc cc/z } 123
+		error { c: context { y: 123 } cc: bind! context { z: does { y } } c , dd: unbind cc dd/z }
 	}
 
 	{

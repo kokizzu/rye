@@ -82,7 +82,7 @@ func matchValue(ps *env.ProgramState, value env.Object, pattern env.Object, mmod
 		if found && word.Index == lmod {
 			mmode.tailMode = 1
 		}
-	case env.Xword:
+	case env.Opword:
 		// Check if the value matches the expected type
 		if int(value.Type()) != word.Index {
 			ps.FailureFlag = true
@@ -156,7 +156,7 @@ var Builtins_match = map[string]*env.Builtin{
 	// equal { match-block { 1 { 2 { 3 4 } 5 } 6 } { x { y { z w } v } u } w } 4
 	// ; equal { try { match-block { 1 { 2 3 } 4 } { a { b "wrong" } c } } |failed? } 1
 	//
-	// ; Type checking with xwords:
+	// ; Type checking with opwords:
 	// equal { match-block { 123 } { <integer> } } true
 	// equal { match-block { "hello" } { <string> } } true
 	// equal { match-block { { 1 2 3 } } { <block> } } true
@@ -176,7 +176,7 @@ var Builtins_match = map[string]*env.Builtin{
 	// * pattern: Block containing:
 	//   - Words to bind values to
 	//   - Literal values to match
-	//   - Xwords to check value types (e.g., <integer>, <string>)
+	//   - Opwords to check value types (e.g., <integer>, <string>)
 	//   - Get-words to match against values in the current context (e.g., ?x)
 	//   - Square brackets [ ] to evaluate code with the value injected
 	//   - Nested blocks for recursive matching

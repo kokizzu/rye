@@ -21,7 +21,7 @@ func load_saxml_Dict(ps *env.ProgramState, block env.Block) (env.Dict, *env.Erro
 	for block.Series.Pos() < block.Series.Len() {
 		obj := block.Series.Peek()
 		switch obj1 := obj.(type) {
-		case env.Xword:
+		case env.Opword:
 			trace5("TAG")
 			keys = append(keys, ps.Idx.GetWord(obj1.Index))
 			block.Series.Next()
@@ -63,7 +63,7 @@ func load_saxml_Dict(ps *env.ProgramState, block env.Block) (env.Dict, *env.Erro
 			}
 		default:
 			// ni Dict ampak blok kode, vrni blok
-			return EmptyRM(), MakeBuiltinError(ps, "Unknown type in block parsing TODO.", "reader//do-sxml")
+			return EmptyRM(), MakeBuiltinError(ps, "Unknown type in block parsing: "+obj.Inspect(*ps.Idx), "reader//do-sxml")
 		}
 	}
 	return rmap, nil
@@ -248,7 +248,7 @@ var Builtins_sxml = map[string]*env.Builtin{
 	//   "<scene><bot>C3PO</bot><bot>R2D2</bot><jedi>Luke</jedi></scene>" |reader
 	//   .do-sxml { _ [ .prns ] }
 	// } "C3PO R2D2 Luke "
-	// stdout {
+	// equal {
 	//   "<scene><bot>C3PO</bot><bot>R2D2</bot><jedi>Luke</jedi></scene>" |reader
 	//   .do-sxml { <bot> { _ [ .prns ] } }
 	// } "C3PO R2D2 "
